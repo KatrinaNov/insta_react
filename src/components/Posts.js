@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import InstaService from '../services/instaService';
 import User from './User';
 import ErrorMessage from './Error';
+import Spinner from './Spinner';
 
 export default class Posts extends Component {
     // вызываем наш класс, получаем объект
@@ -9,7 +10,8 @@ export default class Posts extends Component {
     // состояние нашего компонента
     state = {
         posts: [],
-        error: false
+        error: false,
+        loading: true
     }
 
     // lifecycle hooks
@@ -27,7 +29,8 @@ export default class Posts extends Component {
     onPostsLoaded = (posts) => {
         this.setState({
             posts,
-            error: false
+            error: false,
+            loading: false
         });
         console.log(this.state.posts);
     }
@@ -62,8 +65,11 @@ export default class Posts extends Component {
     }
 
     render() {
-        const {error, posts} = this.state;
+        const {error, posts, loading} = this.state;        
 
+        if (loading) {
+            return <Spinner/>
+        }
         if (error) {
             return <ErrorMessage/>
         }
